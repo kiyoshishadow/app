@@ -1,0 +1,23 @@
+=== Gp ===
+function Gp(q,ct){const x=(new Date(q,ct,1).getDay()+6)%7,N=new Date(q,ct+1,0).getDate(),f=[];for(let m=0;m<x;m++)f.push(null);for(let m=1;m<=N;m++)f.push(m);for(;f.length%7!==0;)f.push(null);return f}
+
+=== Gr ===
+function Gr(q){return[...q].sort((ct,_)=>ct.start.localeCompare(_.start))}
+
+=== uh ===
+function uh(q){const ct=Gr(q.cycles),_=[],x=[];for(const E of ct)if(E.end){const p=Fa(E.start,E.end)+1;p>0&&p<=15&&_.push(p)}for(let E=1;E<ct.length;E++){const p=Fa(ct[E-1].start,ct[E].start);p>=18&&p<=45&&x.push(p)}const N=(E,p)=>E.length?Math.round(E.reduce((j,S)=>j+S,0)/E.length):p,f=N(_,q.fallbackPeriod),m=N(x,q.fallbackCycle),o=ct[ct.length-1]||null,h=Fe();let v=0,z=!1,b=null,A=null,g=0;return o&&(v=Fa(o.start,h)+1,o.end||(z=!0,b=Ea(o.start,f-1)),(z||o.end)&&(A=Ea(o.start,m)),A&&(g=Fa(h,A))),{avgPeriod:f,avgCycle:m,current:o,daysIntoCycle:v,inCourse:z,estimatedEnd:b,nextStart:A,daysUntilNext:g,cycleCount:ct.length,hasRealPeriodData:_.length>0,hasRealCycleData:x.length>0}}
+
+=== Kp ===
+function Kp(q,ct=3){var o;const _={},x=uh(q),N=Gr(q.cycles),f=Fe();for(const h of N){const v=h.end||(h.start<=f?f:Ea(h.start,x.avgPeriod-1)),z=Fa(h.start,v);for(let b=0;b<=z;b++)_[Ea(h.start,b)]={kind:h.end?"period":"period-course"}}const m=(o=N[N.length-1])==null?void 0:o.start;if(m){const h=x.avgCycle*(ct+1);for(let v=x.avgCycle;v<=h;v+=x.avgCycle){const z=Ea(m,v);for(let b=0;b<x.avgPeriod;b++){const A=Ea(z,b);_[A]||(_[A]={kind:"predicted-period"})}for(let b=11;b<=15;b++){const A=Ea(z,b);_[A]||(_[A]={kind:b===13?"ovulation":"fertile"})}}}return _}
+
+=== Vp ===
+function Vp(q,ct,_){return q<=_?{name:"Menstruación",emoji:"🩸",color:"var(--bad)"}:q>=12&&q<=16?{name:"Ovulación (fértil)",emoji:"🥚",color:"var(--warn)"}:q<12?{name:"Fase folicular",emoji:"🌱",color:"var(--good)"}:q<=ct?{name:"Fase lútea",emoji:"🌙",color:"var(--accent-2)"}:{name:"Fin de ciclo",emoji:"🌸",color:"var(--accent)"}}
+
+=== Fp ===
+function Fp(q,ct){const x=(new Date(q,ct,1).getDay()+6)%7,N=new Date(q,ct+1,0).getDate(),f=[];for(let m=0;m<x;m++)f.push(null);for(let m=1;m<=N;m++)f.push(m);for(;f.length%7!==0;)f.push(null);return f}
+
+=== th ===
+function th(q){return new Date(q+"T00:00:00").toLocaleDateString("es",{day:"numeric",month:"long"})}
+
+=== eh ===
+function eh(q){return new Date(q+"T00:00:00").toLocaleDateString("es",{day:"2-digit",month:"short"})}
