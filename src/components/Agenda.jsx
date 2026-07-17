@@ -194,15 +194,15 @@ export function Agenda({ agenda = [], setAgenda }) {
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center p-3 sm:items-center"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 overflow-y-auto"
           style={{ background: "rgba(0,0,0,0.35)" }}
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="card w-full max-w-md p-5 pop-in"
+            className="card w-full max-w-md p-5 pop-in my-auto max-h-[90vh] sm:max-h-[85vh] flex flex-col overflow-y-auto"
             onClick={e => e.stopPropagation()}
           >
-            <h3 className="font-display mb-3 text-3xl" style={{ color: "var(--accent)" }}>
+            <h3 className="font-display mb-3 text-3xl flex-shrink-0" style={{ color: "var(--accent)" }}>
               {eventTemplate.id ? "Editar" : "Nuevo"} evento
             </h3>
             <div className="space-y-3">
