@@ -295,11 +295,11 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
                 onChange={e => setNewMovement({ ...newMovement, amount: e.target.value })}
               />
 
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {(newMovement.type === "income" ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => (
                   <button
                     key={cat}
-                    className="chip cursor-pointer"
+                    className="chip w-full justify-center cursor-pointer"
                     style={{
                       background: newMovement.category === cat ? "var(--accent)" : "var(--surface-2)",
                       color: newMovement.category === cat ? "white" : "var(--text)"

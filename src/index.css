@@ -3,9 +3,9 @@
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ring);outline-offset:3px}.card button{text-align:inherit}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}@media(max-width:380px){.bottom-nav .text-xl{font-size:1rem}.bottom-nav .text-\[11px\]{font-size:9px}}
 
 /* ===== Movimiento vivo de Rimi ===== */
-:root{--motion-fast:150ms;--motion-normal:280ms;--motion-slow:440ms;--motion-ease:cubic-bezier(.2,.8,.2,1);--motion-pop:cubic-bezier(.34,1.56,.64,1)}
-html,body,.card,.btn,.input,.chip,.day-cell,.toggle{transition-property:background-color,color,border-color,box-shadow,transform,opacity;transition-duration:var(--motion-normal);transition-timing-function:var(--motion-ease)}
-button,.btn,.card[role=button]{-webkit-tap-highlight-color:transparent}.btn,.bottom-nav button,.card button{transform-origin:center;will-change:transform}.btn:active,.bottom-nav button:active,.card button:active{transform:scale(.96)!important}.card{transform:translateZ(0)}
+:root{--motion-fast:120ms;--motion-normal:240ms;--motion-slow:380ms;--motion-ease:cubic-bezier(.2,.8,.2,1);--motion-pop:cubic-bezier(.34,1.56,.64,1)}
+html,body,.card,.btn,.input,.chip,.day-cell,.toggle{transition-property:background-color,color,border-color,box-shadow,transform,opacity;transition-duration:var(--motion-normal);transition-timing-function:var(--motion-ease);transform-gpu:translate3d(0,0,0)}
+button,.btn,.card[role=button]{-webkit-tap-highlight-color:transparent}.btn,.bottom-nav button,.card button{transform-origin:center;will-change:transform;transform-gpu:translate3d(0,0,0)}.btn:active,.bottom-nav button:active,.card button:active{transform:scale(.96) translate3d(0,0,0)!important}.card{transform:translateZ(0)}
 .motion-card-in{animation:rimiCardIn .42s var(--motion-pop) both;animation-delay:var(--stagger,0ms)}
 @keyframes rimiCardIn{from{opacity:0;transform:translateY(12px) scale(.975);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
 .rimi-nav-pop{animation:rimiNavPop .46s var(--motion-pop)}
