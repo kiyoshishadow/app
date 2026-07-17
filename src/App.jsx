@@ -15,15 +15,15 @@ import { KeepAwake } from '@capacitor-community/keep-awake';
 
 function RimiApp() {
   const [welcomed, setWelcomed, welcomedLoaded] = useStorage("rimi.welcomed", false);
-  const [soundOn, setSoundOn] = useStorage("rimi.sound", true);
+  const [soundOn, setSoundOn, soundOnLoaded] = useStorage("rimi.sound", true);
   const [tab, setTab] = useState("inicio");
 
   // Load and sync business data
-  const [finances, setFinances] = useStorage("rimi.finance", []);
-  const [initialBalance, setInitialBalance] = useStorage("rimi.finance.initial", 0);
-  const [agenda, setAgenda] = useStorage("rimi.agenda", []);
-  const [cycle, setCycle] = useStorage("rimi.cycleV2", { notify: true, cycles: [], fallbackCycle: 28, fallbackPeriod: 5 });
-  const [diary, setDiary] = useStorage("rimi.diary", []);
+  const [finances, setFinances, financesLoaded] = useStorage("rimi.finance", []);
+  const [initialBalance, setInitialBalance, initialBalanceLoaded] = useStorage("rimi.finance.initial", 0);
+  const [agenda, setAgenda, agendaLoaded] = useStorage("rimi.agenda", []);
+  const [cycle, setCycle, cycleLoaded] = useStorage("rimi.cycleV2", { notify: true, cycles: [], fallbackCycle: 28, fallbackPeriod: 5 });
+  const [diary, setDiary, diaryLoaded] = useStorage("rimi.diary", []);
 
   // Initialize sound feedback
   useEffect(() => {
@@ -114,8 +114,26 @@ function RimiApp() {
     setWelcomed(true);
   }
 
-  if (!welcomedLoaded) {
-    return null; // Loading state while useStorage loads from Preferences
+  const allLoaded =
+    welcomedLoaded &&
+    soundOnLoaded &&
+    financesLoaded &&
+    initialBalanceLoaded &&
+    agendaLoaded &&
+    cycleLoaded &&
+    diaryLoaded;
+
+  if (!allLoaded) {
+    return (
+      <div className="flex min-h-[100dvh] flex-col items-center justify-center px-6 text-center">
+        <div className="relative mx-auto h-24 w-24 animate-bounce">
+          <span className="text-[5rem]" role="img" aria-label="Loading">🌸</span>
+        </div>
+        <p className="mt-4 text-sm animate-pulse" style={{ color: "var(--accent)" }}>
+          Cargando tu espacio... 💕
+        </p>
+      </div>
+    );
   }
 
   if (!welcomed) {
