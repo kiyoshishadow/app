@@ -37,6 +37,113 @@ function RimiApp() {
     return () => cleanup();
   }, []);
 
+  // Cute tap-wave and storage save response effects
+  useEffect(() => {
+    let lastSave = 0;
+    function toast(text) {
+      if (Date.now() - lastSave < 350) return;
+      lastSave = Date.now();
+      document.querySelectorAll('.rimi-toast').forEach(x => x.remove());
+      const t = document.createElement('div');
+      t.className = 'rimi-toast';
+      t.textContent = text;
+      document.body.append(t);
+      setTimeout(() => t.remove(), 2450);
+    }
+
+    function hearts(x = window.innerWidth / 2, y = window.innerHeight - 115, emoji = '💕') {
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isReduced) return;
+      [-22, 0, 22].forEach((d, i) => {
+        const h = document.createElement('span');
+        h.className = 'rimi-heart';
+        h.textContent = i === 1 ? emoji : '♡';
+        h.style.left = `${x + d}px`;
+        h.style.top = `${y}px`;
+        h.style.setProperty('--drift', `${d / 2}px`);
+        h.style.animationDelay = `${i * 55}ms`;
+        document.body.append(h);
+        setTimeout(() => h.remove(), 1000);
+      });
+    }
+
+    // Intercept localStorage setItem to automatically respond on saves
+    const originalSetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      const result = originalSetItem.call(this, key, value);
+      if (typeof key === 'string' && key.startsWith('rimi.') && !/theme|mode|sound|welcomed|notified/.test(key)) {
+        setTimeout(() => {
+          let msg = 'Todo guardadito 💕';
+          let icon = '💕';
+          if (key.includes('finance')) {
+            msg = 'Anotado en tu bolsillo 🐷';
+            icon = '🪙';
+          } else if (key.includes('agenda')) {
+            msg = 'Plan apuntado en tu agenda 🌷';
+            icon = '🌷';
+          } else if (key.includes('cycle')) {
+            msg = 'Registro guardado con cariño 🌸';
+            icon = '🌸';
+          } else if (key.includes('diary')) {
+            msg = 'Tus palabras están a salvo 📖';
+            icon = '💗';
+          }
+          toast(msg);
+          hearts(window.innerWidth / 2, window.innerHeight - 105, icon);
+        }, 40);
+      }
+      return result;
+    };
+
+    // Global tap/click wave (burbuja) effect
+    const handleGlobalClick = (e) => {
+      const b = e.target.closest('button, [role="button"], .day-cell, .sticker, .toggle');
+      if (!b) return;
+
+      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Tab navigation pop
+      const nav = b.closest('nav[aria-label="navegación"]');
+      if (nav) {
+        b.classList.remove('rimi-nav-pop');
+        void b.offsetWidth;
+        b.classList.add('rimi-nav-pop');
+        setTimeout(() => b.classList.remove('rimi-nav-pop'), 550);
+      }
+
+      // Tap wave ripple
+      if (!isReduced && !b.closest('.fixed.inset-0')) {
+        const w = document.createElement('i');
+        w.className = 'rimi-tap-wave';
+        w.style.left = `${e.clientX}px`;
+        w.style.top = `${e.clientY}px`;
+        document.body.append(w);
+        setTimeout(() => w.remove(), 650);
+      }
+
+      // Calendar month swap transition
+      const txt = (b.textContent || '').trim();
+      if (txt === '‹' || txt === '›') {
+        setTimeout(() => {
+          const cal = document.querySelector('.grid-cols-7');
+          if (cal) {
+            cal.style.setProperty('--month-dir', txt === '›' ? '12px' : '-12px');
+            cal.classList.remove('rimi-calendar-swap');
+            void cal.offsetWidth;
+            cal.classList.add('rimi-calendar-swap');
+          }
+        }, 20);
+      }
+    };
+
+    document.addEventListener('click', handleGlobalClick, true);
+
+    return () => {
+      Storage.prototype.setItem = originalSetItem;
+      document.removeEventListener('click', handleGlobalClick, true);
+    };
+  }, []);
+
   // Enable keep awake feature
   useEffect(() => {
     async function activateAwake() {

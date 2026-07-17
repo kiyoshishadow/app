@@ -226,11 +226,11 @@ export function Agenda({ agenda = [], setAgenda }) {
                   onChange={e => setEventTemplate({ ...eventTemplate, time: e.target.value })}
                 />
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {Object.keys(EVENT_TYPES).map(kind => (
                   <button
                     key={kind}
-                    className="chip cursor-pointer"
+                    className="chip w-full justify-center cursor-pointer text-xs"
                     style={{
                       background: eventTemplate.kind === kind ? EVENT_TYPES[kind].color : "var(--surface-2)",
                       color: eventTemplate.kind === kind ? "white" : "var(--text)"

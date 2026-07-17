@@ -104,15 +104,26 @@ export function Ciclo({ cycle = { notify: true, cycles: [], fallbackCycle: 28, f
   }
 
   async function requestBrowserNotificationPermission() {
-    if (!("Notification" in window)) {
-      setErrorMessage("Este dispositivo o navegador no soporta notificaciones.");
-      return;
-    }
-    const perm = await Notification.requestPermission();
-    if (perm === "granted") {
-      setErrorMessage("¡Listo! Te avisaré un día antes 💕");
-    } else {
-      setErrorMessage("Permiso denegado. Actívalo en ajustes del navegador.");
+    try {
+      const permResult = await LocalNotifications.requestPermissions();
+      if (permResult.display === 'granted') {
+        setErrorMessage("¡Listo! Te avisaré un día antes 💕");
+        return;
+      } else {
+        setErrorMessage("Permiso de notificaciones denegado.");
+        return;
+      }
+    } catch (e) {
+      if (!("Notification" in window)) {
+        setErrorMessage("Este dispositivo o navegador no soporta notificaciones.");
+        return;
+      }
+      const perm = await Notification.requestPermission();
+      if (perm === "granted") {
+        setErrorMessage("¡Listo! Te avisaré un día antes 💕");
+      } else {
+        setErrorMessage("Permiso denegado. Actívalo en ajustes del navegador.");
+      }
     }
   }
 

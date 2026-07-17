@@ -279,18 +279,16 @@ function DiarioEdit({ entry, onSave, onCancel, onDelete }) {
           style={{ background: "transparent" }}
         />
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-soft)" }}>Papel</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {PAPER_BACKGROUNDS.map(bg => (
             <button
               key={bg.id}
-              className={`chip ${bg.cls} transition cursor-pointer`}
+              className={`chip ${bg.cls} w-full justify-center transition cursor-pointer`}
               style={{
                 outline: localEntry.bg === bg.id ? "3px solid var(--accent)" : "none",
                 outlineOffset: "2px",
-                minWidth: 54,
-                minHeight: 34,
                 background: bg.cls ? undefined : "var(--surface-2)",
-                transform: localEntry.bg === bg.id ? "scale(1.05)" : "scale(1)"
+                transform: localEntry.bg === bg.id ? "scale(1.03)" : "scale(1)"
               }}
               onClick={() => setLocalEntry({ ...localEntry, bg: bg.id })}
               title={bg.label}
@@ -352,19 +350,19 @@ function DiarioEdit({ entry, onSave, onCancel, onDelete }) {
       </div>
 
       <div className="card space-y-3 p-4">
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <ToolButton active={tool === "none"} onClick={() => setTool("none")} emoji="✍️" label="Escribir" />
           <ToolButton active={tool === "pen"} onClick={() => setTool("pen")} emoji="✏️" label="Lápiz" />
           <ToolButton active={tool === "eraser"} onClick={() => setTool("eraser")} emoji="🧽" label="Borrador" />
-          <button
-            className="btn btn-ghost ml-auto text-sm cursor-pointer"
-            onClick={handleClearDrawing}
-            disabled={!localEntry.drawing}
-            style={{ opacity: localEntry.drawing ? 1 : 0.45 }}
-          >
-            🗑️ Borrar lienzo
-          </button>
         </div>
+        <button
+          className="btn btn-ghost w-full text-xs cursor-pointer mt-1 py-2"
+          onClick={handleClearDrawing}
+          disabled={!localEntry.drawing}
+          style={{ opacity: localEntry.drawing ? 1 : 0.45 }}
+        >
+          🗑️ Borrar lienzo
+        </button>
 
         {tool === "pen" && (
           <div className="space-y-2 pop-in">
