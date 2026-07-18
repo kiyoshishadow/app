@@ -259,33 +259,36 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-y-auto"
+            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
-            <h3 className="font-display mb-3 text-3xl flex-shrink-0" style={{ color: "var(--accent)" }}>
-              Nuevo movimiento
-            </h3>
-            <div className="mb-3 flex gap-2">
-              {["income", "expense"].map(type => (
-                <button
-                  key={type}
-                  className="chip flex-1 justify-center py-2 cursor-pointer"
-                  style={{
-                    background: newMovement.type === type ? "var(--accent)" : "var(--surface-2)",
-                    color: newMovement.type === type ? "white" : "var(--text)"
-                  }}
-                  onClick={() => setNewMovement({
-                    ...newMovement,
-                    type,
-                    category: type === "income" ? "Salario" : "Comida"
-                  })}
-                >
-                  {type === "income" ? "Ingreso" : "Gasto"}
-                </button>
-              ))}
+            <div className="flex-shrink-0">
+              <h3 className="font-display text-3xl leading-normal mb-3" style={{ color: "var(--accent)" }}>
+                Nuevo movimiento
+              </h3>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4">
+              <div className="flex gap-2">
+                {["income", "expense"].map(type => (
+                  <button
+                    key={type}
+                    className="chip flex-1 justify-center py-2 cursor-pointer"
+                    style={{
+                      background: newMovement.type === type ? "var(--accent)" : "var(--surface-2)",
+                      color: newMovement.type === type ? "white" : "var(--text)"
+                    }}
+                    onClick={() => setNewMovement({
+                      ...newMovement,
+                      type,
+                      category: type === "income" ? "Salario" : "Comida"
+                    })}
+                  >
+                    {type === "income" ? "Ingreso" : "Gasto"}
+                  </button>
+                ))}
+              </div>
+
               <input
                 type="number"
                 inputMode="decimal"
@@ -325,15 +328,15 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
                 value={newMovement.date}
                 onChange={e => setNewMovement({ ...newMovement, date: e.target.value })}
               />
+            </div>
 
-              <div className="flex gap-2 pt-2">
-                <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
-                  Cancelar
-                </button>
-                <button className="btn flex-1" onClick={handleAddMovement}>
-                  Guardar
-                </button>
-              </div>
+            <div className="flex-shrink-0 pt-3 mt-3 border-t border-dashed border-pink-200 flex gap-2">
+              <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
+                Cancelar
+              </button>
+              <button className="btn flex-1" onClick={handleAddMovement}>
+                Guardar
+              </button>
             </div>
           </div>
         </div>

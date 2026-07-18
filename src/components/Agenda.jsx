@@ -199,13 +199,16 @@ export function Agenda({ agenda = [], setAgenda }) {
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-y-auto"
+            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
-            <h3 className="font-display mb-3 text-3xl flex-shrink-0" style={{ color: "var(--accent)" }}>
-              {eventTemplate.id ? "Editar" : "Nuevo"} evento
-            </h3>
-            <div className="space-y-3">
+            <div className="flex-shrink-0">
+              <h3 className="font-display text-3xl leading-normal mb-3" style={{ color: "var(--accent)" }}>
+                {eventTemplate.id ? "Editar" : "Nuevo"} evento
+              </h3>
+            </div>
+
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4">
               <input
                 className="input"
                 placeholder="Título"
@@ -256,14 +259,15 @@ export function Agenda({ agenda = [], setAgenda }) {
                 value={eventTemplate.note || ""}
                 onChange={e => setEventTemplate({ ...eventTemplate, note: e.target.value })}
               />
-              <div className="flex gap-2 pt-2">
-                <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
-                  Cancelar
-                </button>
-                <button className="btn flex-1" onClick={handleSaveEvent}>
-                  Guardar
-                </button>
-              </div>
+            </div>
+
+            <div className="flex-shrink-0 pt-3 mt-3 border-t border-dashed border-pink-200 flex gap-2">
+              <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
+                Cancelar
+              </button>
+              <button className="btn flex-1" onClick={handleSaveEvent}>
+                Guardar
+              </button>
             </div>
           </div>
         </div>
