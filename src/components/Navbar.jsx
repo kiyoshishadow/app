@@ -5,8 +5,7 @@ export const kp = [
   { key: "finanzas", label: "Dinero", emoji: "💰" },
   { key: "agenda", label: "Agenda", emoji: "📅" },
   { key: "ciclo", label: "Ciclo", emoji: "🌸" },
-  { key: "diario", label: "Diario", emoji: "📖" },
-  { key: "config", label: "Ajustes", emoji: "⚙️" }
+  { key: "diario", label: "Diario", emoji: "📖" }
 ];
 
 export function Navbar({ tab, setTab, children }) {

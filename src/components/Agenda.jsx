@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { generateId, getTodayString, getCalendarCells } from '../utils/helpers';
 
 export const EVENT_TYPES = {
@@ -192,23 +193,21 @@ export function Agenda({ agenda = [], setAgenda }) {
         )}
       </div>
 
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background: "rgba(0,0,0,0.35)" }}
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-hidden"
+            className="card rimi-modal-card w-full max-w-md p-5 flex flex-col max-h-[85vh]"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex-shrink-0">
-              <h3 className="font-display text-3xl leading-normal mb-3" style={{ color: "var(--accent)" }}>
-                {eventTemplate.id ? "Editar" : "Nuevo"} evento
-              </h3>
-            </div>
+            <h3 className="mb-4 font-display text-3xl leading-normal" style={{ color: "var(--accent)" }}>
+              {eventTemplate.id ? "Editar" : "Nuevo"} evento
+            </h3>
 
-            <div className="flex-1 overflow-y-auto pr-1 space-y-4">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4 no-scrollbar">
               <input
                 className="input"
                 placeholder="Título"
@@ -261,7 +260,7 @@ export function Agenda({ agenda = [], setAgenda }) {
               />
             </div>
 
-            <div className="flex-shrink-0 pt-3 mt-3 border-t border-dashed border-pink-200 flex gap-2">
+            <div className="pt-3 mt-4 border-t border-dashed border-pink-200 flex gap-2">
               <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
                 Cancelar
               </button>
@@ -270,7 +269,8 @@ export function Agenda({ agenda = [], setAgenda }) {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

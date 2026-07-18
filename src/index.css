@@ -16,8 +16,8 @@ button,.btn,.card[role=button]{-webkit-tap-highlight-color:transparent}.btn,.bot
 @keyframes rimiHeartUp{0%{opacity:0;transform:translate(-50%,4px) scale(.6) rotate(-8deg)}25%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--drift)), -62px) scale(1.25) rotate(12deg)}}
 .rimi-toast{position:fixed;z-index:9998;left:50%;bottom:92px;transform:translate(-50%,16px);opacity:0;max-width:calc(100% - 28px);padding:11px 17px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text);box-shadow:var(--shadow);font-weight:700;font-size:.85rem;pointer-events:none;animation:rimiToast 2.3s var(--motion-ease) forwards}
 @keyframes rimiToast{0%{opacity:0;transform:translate(-50%,16px) scale(.95)}12%,78%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-6px) scale(.98)}}
-.rimi-modal-card{animation:rimiModalIn .34s var(--motion-pop) both;transform-origin:50% 100%}
-@keyframes rimiModalIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+.rimi-modal-card{animation:rimiModalIn .34s var(--motion-pop) both;transform-origin:center}
+@keyframes rimiModalIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
 .rimi-shake{animation:rimiShake .32s ease both}@keyframes rimiShake{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
 .rimi-calendar-swap{animation:rimiCalendar .34s var(--motion-ease)}@keyframes rimiCalendar{0%{opacity:.25;transform:translateX(var(--month-dir,10px))}100%{opacity:1;transform:none}}
 .rimi-tap-wave{position:fixed;z-index:9997;width:10px;height:10px;border-radius:50%;pointer-events:none;background:var(--accent-soft);border:1px solid var(--accent-2);animation:rimiWave .55s ease-out forwards}@keyframes rimiWave{to{opacity:0;transform:translate(-50%,-50%) scale(7)}}

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { generateId, formatCurrency, getTodayString } from '../utils/helpers';
 
 const INCOME_CATEGORIES = ["Salario", "Freelance", "Regalo", "Venta", "Otro"];
@@ -162,22 +163,22 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
-        <div className="card p-3 text-center">
-          <p className="text-[11px]" style={{ color: "var(--text-soft)" }}>Ingresos</p>
-          <p className="font-display text-2xl" style={{ color: "var(--good)" }}>
+      <div className="grid grid-cols-3 gap-1.5 min-[375px]:gap-3">
+        <div className="card p-2 min-[375px]:p-3 text-center flex flex-col justify-center min-h-[70px]">
+          <p className="text-[9px] min-[375px]:text-[11px] font-semibold" style={{ color: "var(--text-soft)" }}>Ingresos</p>
+          <p className="font-display text-sm min-[350px]:text-base min-[390px]:text-lg min-[415px]:text-xl truncate" style={{ color: "var(--good)" }}>
             {formatCurrency(stats.income)}
           </p>
         </div>
-        <div className="card p-3 text-center">
-          <p className="text-[11px]" style={{ color: "var(--text-soft)" }}>Gastos</p>
-          <p className="font-display text-2xl" style={{ color: "var(--bad)" }}>
+        <div className="card p-2 min-[375px]:p-3 text-center flex flex-col justify-center min-h-[70px]">
+          <p className="text-[9px] min-[375px]:text-[11px] font-semibold" style={{ color: "var(--text-soft)" }}>Gastos</p>
+          <p className="font-display text-sm min-[350px]:text-base min-[390px]:text-lg min-[415px]:text-xl truncate" style={{ color: "var(--bad)" }}>
             {formatCurrency(stats.expense)}
           </p>
         </div>
-        <div className="card p-3 text-center">
-          <p className="text-[11px]" style={{ color: "var(--text-soft)" }}>Movimiento</p>
-          <p className="font-display text-2xl" style={{ color: stats.movement >= 0 ? "var(--good)" : "var(--bad)" }}>
+        <div className="card p-2 min-[375px]:p-3 text-center flex flex-col justify-center min-h-[70px]">
+          <p className="text-[9px] min-[375px]:text-[11px] font-semibold" style={{ color: "var(--text-soft)" }}>Movimiento</p>
+          <p className="font-display text-sm min-[350px]:text-base min-[390px]:text-lg min-[415px]:text-xl truncate" style={{ color: stats.movement >= 0 ? "var(--good)" : "var(--bad)" }}>
             {stats.movement >= 0 ? "+" : "−"}
             {formatCurrency(Math.abs(stats.movement))}
           </p>
@@ -252,23 +253,21 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
         ))}
       </div>
 
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background: "rgba(0,0,0,0.35)" }}
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="card w-full max-w-md p-5 pop-in m-auto max-h-[85vh] flex flex-col overflow-hidden"
+            className="card rimi-modal-card w-full max-w-md p-5 flex flex-col max-h-[85vh]"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex-shrink-0">
-              <h3 className="font-display text-3xl leading-normal mb-3" style={{ color: "var(--accent)" }}>
-                Nuevo movimiento
-              </h3>
-            </div>
+            <h3 className="mb-4 font-display text-3xl leading-normal" style={{ color: "var(--accent)" }}>
+              Nuevo movimiento
+            </h3>
 
-            <div className="flex-1 overflow-y-auto pr-1 space-y-4">
+            <div className="flex-1 overflow-y-auto pr-1 space-y-4 no-scrollbar">
               <div className="flex gap-2">
                 {["income", "expense"].map(type => (
                   <button
@@ -330,7 +329,7 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
               />
             </div>
 
-            <div className="flex-shrink-0 pt-3 mt-3 border-t border-dashed border-pink-200 flex gap-2">
+            <div className="pt-3 mt-4 border-t border-dashed border-pink-200 flex gap-2">
               <button className="btn btn-ghost flex-1" onClick={() => setIsModalOpen(false)}>
                 Cancelar
               </button>
@@ -339,7 +338,8 @@ export function Finanzas({ finances = [], setFinances, initialBalance = 0, setIn
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
